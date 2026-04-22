@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 function TyreGraphic() {
   return (
@@ -51,12 +51,12 @@ function TyreGraphic() {
   );
 }
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } },
 };
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 };
@@ -67,14 +67,33 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Background grid */}
+      {/* Grid layer — racing circuit overhead lines */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
         style={{
           backgroundImage:
-            'linear-gradient(#FFCC00 1px, transparent 1px), linear-gradient(90deg, #FFCC00 1px, transparent 1px)',
+            'linear-gradient(rgba(255,204,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,204,0,0.04) 1px, transparent 1px)',
           backgroundSize: '60px 60px',
+          zIndex: 0,
         }}
+      />
+
+      {/* Spotlight sweep — yellow radial cone drifting left→right */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{ zIndex: 1 }}
+        animate={{
+          background: [
+            'radial-gradient(ellipse 55% 70% at -10% 40%, rgba(255,204,0,0.08) 0%, transparent 70%)',
+            'radial-gradient(ellipse 55% 70% at 55%  40%, rgba(255,204,0,0.08) 0%, transparent 70%)',
+            'radial-gradient(ellipse 55% 70% at 110% 40%, rgba(255,204,0,0.08) 0%, transparent 70%)',
+            'radial-gradient(ellipse 55% 70% at 55%  40%, rgba(255,204,0,0.08) 0%, transparent 70%)',
+            'radial-gradient(ellipse 55% 70% at -10% 40%, rgba(255,204,0,0.08) 0%, transparent 70%)',
+          ],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Yellow diagonal slash accents */}
@@ -84,6 +103,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.5 }}
         className="absolute top-0 right-0 w-[600px] h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
+        style={{ zIndex: 2 }}
       >
         <div
           className="absolute top-[-10%] right-[-8%] w-16 h-[140%] bg-[#FFCC00]"
